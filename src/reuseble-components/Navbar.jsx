@@ -8,7 +8,7 @@ export default function Navbar() {
         <div className=''></div>
         <div className='nav text-accent flex gap-5'>
             <NavLink to="/">Home</NavLink>
-            <NavLink to="/">About</NavLink>
+            <NavLink to="/about">About</NavLink>
             <NavLink to="/career">Career</NavLink>
         </div>
         <div className='login-btn flex gap-3'>
