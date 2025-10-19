@@ -1,7 +1,42 @@
-import React from "react";
+import React, { use } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../provider/AuthProvider";
+import { toast } from "react-toastify";
 
 export default function () {
+  const { createUser, setUser } = use(AuthContext);
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const photoUrl = form.photo.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log({ name, photoUrl, email, password });
+    createUser(email, password)
+      .then((res) => {
+        const user = res.user;
+        console.log(user);
+
+        setUser(user);
+
+        toast.success("✅ Successfully logged register!", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(`⚠️ ${error.message}`, {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "colored",
+        });
+      });
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -9,27 +44,53 @@ export default function () {
           Register Your Account
         </h1>
         <hr className="text-accent mx-6" />
-        <div className="card-body">
+        <form onSubmit={handleRegister} className="card-body">
           <fieldset className="fieldset">
             {/* Name Input */}
             <label className="label">Name</label>
-            <input type="text" className="input" placeholder="Name" />
+            <input
+              type="text"
+              name="name"
+              className="input"
+              placeholder="Name"
+              required
+            />
             {/* Photo Url Input */}
             <label className="label">Phot Url</label>
-            <input type="text" className="input" placeholder="Enter Your Photo Url" />
+            <input
+              type="text"
+              name="photo"
+              className="input"
+              placeholder="Enter Your Photo Url"
+              required
+            />
             {/* Email Input */}
             <label className="label">Email</label>
-            <input type="email" className="input" placeholder="Email" />
+            <input
+              type="email"
+              name="email"
+              className="input"
+              placeholder="Email"
+              required
+            />
             {/* Password Input */}
             <label className="label">Password</label>
-            <input type="password" className="input" placeholder="Password" />
+            <input
+              type="password"
+              name="password"
+              className="input"
+              placeholder="Password"
+              required
+            />
             <div className="flex items-center gap-1">
-              <input type="checkbox" name="" id="" />
+              <input type="checkbox" name="checkbox" id="" />
               <a className="link link-hover hover:text-blue-500">
                 accept terms and condition.
               </a>
             </div>
-            <button className="btn btn-neutral mt-4">Login</button>
+            <button type="submit" className="btn btn-neutral mt-4">
+              Register
+            </button>
             <p className="text-center py-2">
               You Have An Account ?{" "}
               <Link
@@ -40,7 +101,7 @@ export default function () {
               </Link>
             </p>
           </fieldset>
-        </div>
+        </form>
       </div>
     </div>
   );
