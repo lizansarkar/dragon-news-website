@@ -1,6 +1,7 @@
 // src/components/NewsDetailsCard.jsx
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function NewsDetailsCard({ news }) {
   const {
@@ -8,7 +9,6 @@ export default function NewsDetailsCard({ news }) {
     date,
     tags,
     image_url,
-    description,
     details,
   } = news || {};
 
@@ -52,10 +52,10 @@ export default function NewsDetailsCard({ news }) {
 
           {/* Button */}
           <div className="pt-4">
-            <button className="btn btn-secondary btn-sm md:btn-md text-white flex items-center gap-2">
+            <Link to={`/category/${news?.category_id}`} className="btn btn-secondary btn-sm md:btn-md text-white flex items-center gap-2">
               <FaArrowLeft />
               All news in this category
-            </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -10,7 +10,6 @@ export default function NewsDetail() {
 
     const data = useLoaderData();
     const {id} = useParams();
-    console.log(data, id)
 
     useEffect(() => {
        const newsDetails = data.find(singleNews => singleNews.id == id);
