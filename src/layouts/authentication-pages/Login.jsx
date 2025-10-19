@@ -1,10 +1,17 @@
-import React, { use } from "react";
-import { Link } from "react-router-dom";
+import React, { use, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import { toast } from "react-toastify";
 
 export default function Login() {
+  const [error, setError] = useState("");
+
   const { signIn } = use(AuthContext);
+
+  const location = useLocation();
+  console.log(location);
+
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -20,6 +27,8 @@ export default function Login() {
           autoClose: 2000,
           theme: "colored",
         });
+
+        navigate(`${location.state ? location.state : "/"}`);
         // form.reset();
       })
       .catch((error) => {
@@ -28,6 +37,8 @@ export default function Login() {
           autoClose: 2500,
           theme: "colored",
         });
+
+        setError(error.message);
       });
   };
 
@@ -38,6 +49,11 @@ export default function Login() {
           Login your account
         </h1>
         <hr className="text-accent mx-6" />
+        {error && (
+          <div className="text-red-500 text-sm text-center animate-pulse">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleLogin} className="card-body">
           <fieldset className="fieldset">
             {/* Email Input */}
@@ -47,6 +63,7 @@ export default function Login() {
               name="email"
               className="input"
               placeholder="Email"
+              required
             />
             {/* Password Input */}
             <label className="label">Password</label>
@@ -55,12 +72,22 @@ export default function Login() {
               name="password"
               className="input"
               placeholder="Password"
+              required
             />
             <div>
               <a className="link link-hover hover:text-blue-500">
                 Forgot password?
               </a>
             </div>
+            {/* show error */}
+            {/* 🔴 Error Message — এখন Login বাটনের উপরে */}
+            {/* {
+              error && (
+                <div className="text-red-500 text-sm text-center font-medium">
+                  {error}
+                </div>
+              )
+            } */}
             <button type="submit" className="btn btn-neutral mt-4">
               Login
             </button>

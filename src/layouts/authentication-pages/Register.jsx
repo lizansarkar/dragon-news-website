@@ -1,19 +1,31 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import { toast } from "react-toastify";
 
 export default function () {
   const { createUser, setUser } = use(AuthContext);
-
+  const [nameErr, setNameErr] = useState("");
+  
   const handleRegister = (e) => {
     e.preventDefault();
+
+
     const form = e.target;
     const name = form.name.value;
+
+    if(name.lengtn < 4) {
+      setNameErr("name shoud be 4 charector");
+      return;
+    }else {
+      setNameErr("")
+    }
+
     const photoUrl = form.photo.value;
     const email = form.email.value;
     const password = form.password.value;
     console.log({ name, photoUrl, email, password });
+
     createUser(email, password)
       .then((res) => {
         const user = res.user;
@@ -55,6 +67,9 @@ export default function () {
               placeholder="Name"
               required
             />
+            {
+              nameErr && <span className="text-xs text-red-950">{nameErr}</span>
+            }
             {/* Photo Url Input */}
             <label className="label">Phot Url</label>
             <input
