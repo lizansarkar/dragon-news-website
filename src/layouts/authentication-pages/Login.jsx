@@ -20,6 +20,7 @@ export default function Login() {
           autoClose: 2000,
           theme: "colored",
         });
+        // form.reset();
       })
       .catch((error) => {
         toast.error(`Login failed: ${error.message}`, {

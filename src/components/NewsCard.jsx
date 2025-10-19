@@ -1,9 +1,10 @@
 import React from "react";
 import { FaRegBookmark, FaShareAlt, FaEye, FaStar } from "react-icons/fa";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 const NewsCard = ({ news }) => {
-  const { title, rating, total_view, author, thumbnail_url, details, tags } = news;
+  const {id, title, rating, total_view, author, thumbnail_url, details, tags } = news;
 
   return (
     <div className="bg-white shadow-md rounded-2xl overflow-hidden border border-gray-100 max-w-xl mx-auto mb-6">
@@ -50,9 +51,9 @@ const NewsCard = ({ news }) => {
           {details.length > 200
             ? `${details.slice(0, 200)}...`
             : details}
-          <span className="text-orange-500 font-semibold cursor-pointer">
+          <Link to={`/news-detail/${id}`} className="text-orange-500 font-semibold cursor-pointer">
             {" "}Read More
-          </span>
+          </Link>
         </p>
       </div>
 
