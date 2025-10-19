@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import app from '../firebase/firebase.config';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { createUserWithEmailAndPassword } from 'firebase/auth/cordova';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth/cordova';
 
 export const AuthContext = createContext();
 
@@ -11,10 +11,13 @@ export default function AuthProvider( { children } ) {
 
     const [user, setUser] = useState(null)
 
-    console.log(user)
-
     const createUser = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password);
+    }
+
+    // sign in function
+    const signIn = (email, password) => {
+      return signInWithEmailAndPassword(auth, email, password)
     }
 
     // sign out fuction
@@ -36,6 +39,7 @@ export default function AuthProvider( { children } ) {
         setUser,
         createUser,
         userOut,
+        signIn,
     }
   return (
     <AuthContext value={authData}> { children } </AuthContext>

@@ -2,10 +2,9 @@ import React, { use } from 'react'
 import { NavLink } from 'react-router-dom';
 
 const categoryPromise = fetch("/categories.json").then(res => res.json())
-console.log(categoryPromise);
 
 export default function Categories() {
-    const categories = use(categoryPromise);
+  const categories = use(categoryPromise);
 
   return (
     <div>
