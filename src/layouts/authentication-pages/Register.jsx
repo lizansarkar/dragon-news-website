@@ -1,24 +1,25 @@
 import React, { use, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate,  } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import { toast } from "react-toastify";
 
 export default function () {
-  const { createUser, setUser } = use(AuthContext);
+  const { createUser, setUser, updateUser } = use(AuthContext);
   const [nameErr, setNameErr] = useState("");
-  
+
+  const navigateHome = useNavigate()
+
   const handleRegister = (e) => {
     e.preventDefault();
-
 
     const form = e.target;
     const name = form.name.value;
 
-    if(name.lengtn < 4) {
+    if (name.lengtn < 4) {
       setNameErr("name shoud be 4 charector");
       return;
-    }else {
-      setNameErr("")
+    } else {
+      setNameErr("");
     }
 
     const photoUrl = form.photo.value;
@@ -31,7 +32,17 @@ export default function () {
         const user = res.user;
         console.log(user);
 
-        setUser(user);
+        updateUser({ displayName: name, photoURL: photoUrl })
+          .then(() => {
+            setUser({...user, displayName: name, photoURL: photoUrl});
+            navigateHome("/")
+          })
+          .catch((error) => {
+            console.log(error)
+            toast.error(error)
+            setUser(user)
+            navigateHome("/")
+          });
 
         toast.success("✅ Successfully logged register!", {
           position: "top-right",
@@ -67,9 +78,7 @@ export default function () {
               placeholder="Name"
               required
             />
-            {
-              nameErr && <span className="text-xs text-red-950">{nameErr}</span>
-            }
+            {nameErr && <span className="text-xs text-red-950">{nameErr}</span>}
             {/* Photo Url Input */}
             <label className="label">Phot Url</label>
             <input

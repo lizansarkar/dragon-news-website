@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom'
 import userImg from '../assets/user.png'
 import { AuthContext } from '../provider/AuthProvider'
 import { toast } from 'react-toastify';
+import { FaUser } from 'react-icons/fa';
 
 export default function Navbar() {
   const {user, userOut} = use(AuthContext);
@@ -30,10 +31,15 @@ export default function Navbar() {
 
   return (
     <nav className='flex justify-between items-center'>
-        <div className='text-secondary'>
+        <div className='text-secondary flex items-center gap-2'>
           {
-            user && user.email
+            user ? <img className='h-[40px] w-[40px] rounded-4xl' src={`${user.photoURL}`} alt="" /> : <FaUser className='h-[40px] w-[40px] rounded-4xl'></FaUser>
           }
+          <div>
+            {
+              user?.email
+            }
+          </div>
         </div>
         <div className='nav text-accent flex gap-5'>
             <NavLink to="/">Home</NavLink>
