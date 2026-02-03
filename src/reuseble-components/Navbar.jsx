@@ -9,8 +9,6 @@ export default function Navbar() {
   const {user, userOut} = use(AuthContext);
 
   const handleLogOut = () => {
-    console.log("log out button clicked");
-
     userOut()
       .then(() => {
         toast.success("✅ Successfully logged out!", {
@@ -20,7 +18,7 @@ export default function Navbar() {
         });
       })
       .catch((error) => {
-        console.error("Logout Error:", error.message);
+        // console.error("Logout Error:", error.message);
         toast.error(`⚠️ ${error.message}`, {
           position: "top-center",
           autoClose: 3000,

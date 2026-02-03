@@ -25,12 +25,12 @@ export default function () {
     const photoUrl = form.photo.value;
     const email = form.email.value;
     const password = form.password.value;
-    console.log({ name, photoUrl, email, password });
+    // console.log({ name, photoUrl, email, password });
 
     createUser(email, password)
       .then((res) => {
         const user = res.user;
-        console.log(user);
+        // console.log(user);
 
         updateUser({ displayName: name, photoURL: photoUrl })
           .then(() => {
@@ -38,7 +38,6 @@ export default function () {
             navigateHome("/")
           })
           .catch((error) => {
-            console.log(error)
             toast.error(error)
             setUser(user)
             navigateHome("/")
@@ -51,7 +50,6 @@ export default function () {
         });
       })
       .catch((error) => {
-        console.log(error);
         toast.error(`⚠️ ${error.message}`, {
           position: "top-center",
           autoClose: 3000,
